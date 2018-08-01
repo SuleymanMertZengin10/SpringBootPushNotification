@@ -57,7 +57,9 @@ public class DeviceController {
 		 String body=notification.get("body");
 		 deviceService.sendMessageToOneDevice(token, title, body);
 
-	
 	 }
-	
+
+    
+
+
 }
