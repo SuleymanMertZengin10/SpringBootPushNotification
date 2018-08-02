@@ -58,6 +58,15 @@ public class DeviceController {
 		 deviceService.sendMessageToOneDevice(mail, title, body);
 
 	 }
+    
+    
+     @GetMapping("/getToken/{mail}")
+     public String getTokenByMail(@PathVariable("mail")String mail) {
+    	 
+    	 return deviceService.getTokenByMail(mail);
+    	  
+    	 
+    }
 
     
 

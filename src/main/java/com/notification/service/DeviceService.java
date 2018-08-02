@@ -79,5 +79,11 @@ public class DeviceService{
 				e.printStackTrace();
 			}
 	}
+	
+	public String getTokenByMail(String mail) {
+		 Device device=deviceRepository.findFirstByMail(mail);
+			
+		 return device.getToken();
+	}
 
 }
