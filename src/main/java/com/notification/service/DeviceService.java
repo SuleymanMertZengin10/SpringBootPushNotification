@@ -63,10 +63,13 @@ public class DeviceService{
 		
 	
 	}
-	public void sendMessageToOneDevice(String token, String title, String body) {
+	public void sendMessageToOneDevice(String mail, String title, String body) {
+		
+		 Device device=deviceRepository.findFirstByMail(mail);
+		
 		Message message = Message.builder()
 			    .setNotification(new Notification(title, body))
-			    .setToken(token)
+			    .setToken(device.getToken())
 			    .build();
 
 			try {

@@ -7,5 +7,7 @@ import com.notification.model.Device;
 
 @Repository
 public interface DeviceRepository extends JpaRepository<Device, String>{
-
+	
+	public Device findFirstByMail(String mail);
+	
 }
