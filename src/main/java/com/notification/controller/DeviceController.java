@@ -52,10 +52,10 @@ public class DeviceController {
     @PostMapping("/sendNotificationToOneDevice")
 	 public void sendMessageToOneDevice(@RequestBody Map<String,String>notification) {
 
-		 String token=notification.get("token");
+		 String  mail=notification.get("mail");
 		 String title=notification.get("title");
 		 String body=notification.get("body");
-		 deviceService.sendMessageToOneDevice(token, title, body);
+		 deviceService.sendMessageToOneDevice(mail, title, body);
 
 	 }
 
