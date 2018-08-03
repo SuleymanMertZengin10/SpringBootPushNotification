@@ -2,6 +2,7 @@ package com.notification.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -107,14 +108,16 @@ public class GrupService {
 	public void sendMessageToGroup(String grupName,String title,String body) {
           
 		  Message message = Message.builder()
-				.setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.NORMAL)
-						.setNotification(AndroidNotification.builder()
-								.setTitle(title)
-								.setBody(body)
-								.build())
-						.build())
-				.setTopic(grupName)
-				.build();
+			     
+				  .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.NORMAL)
+							.setNotification(AndroidNotification.builder()
+									.setTitle(title)
+									.setBody(body)
+									.build())
+							.build())
+					
+					.setTopic(grupName)
+					.build();
 		
 		try {
 			FirebaseMessaging.getInstance().send(message);

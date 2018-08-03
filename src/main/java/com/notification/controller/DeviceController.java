@@ -50,12 +50,14 @@ public class DeviceController {
 
 	}	
     @PostMapping("/sendNotificationToOneDevice")
-	 public void sendMessageToOneDevice(@RequestBody Map<String,String>notification) {
+	 public void sendMessageToOneDevice(@RequestBody Map<String,Object>notification) {
 
-		 String  mail=notification.get("mail");
-		 String title=notification.get("title");
-		 String body=notification.get("body");
-		 deviceService.sendMessageToOneDevice(mail, title, body);
+		 String  mail=(String)notification.get("mail");
+		 String title=(String)notification.get("title");
+		 String body=(String)notification.get("body");
+		 Map<String,String>dataMap=(Map<String,String>)notification.get("data");
+		 
+		 deviceService.sendMessageToOneDevice(mail, title, body,dataMap);
 
 	 }
     
@@ -68,7 +70,9 @@ public class DeviceController {
     	 
     }
 
-    
+
+ 
+     
 
 
 }

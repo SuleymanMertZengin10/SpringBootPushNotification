@@ -2,6 +2,7 @@ package com.notification.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,12 +64,13 @@ public class DeviceService{
 		
 	
 	}
-	public void sendMessageToOneDevice(String mail, String title, String body) {
+	public void sendMessageToOneDevice(String mail, String title, String body,Map<String, String> map) {
 		
 		 Device device=deviceRepository.findFirstByMail(mail);
 		
 		Message message = Message.builder()
-			    .setNotification(new Notification(title, body))
+			    .putAllData(map)
+				.setNotification(new Notification(title, body))
 			    .setToken(device.getToken())
 			    .build();
 
