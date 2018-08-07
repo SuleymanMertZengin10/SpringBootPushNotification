@@ -29,8 +29,18 @@ public class DeviceService{
 	GrupRepository grupRepository;
 	
 
-	public Device addDevice(Device device) {
-		
+	public Device addDevice(String token, String mail) {
+         Device device =deviceRepository.findFirstByMail(mail);
+		 if(device != null) {
+			 device.setToken(token);
+		 }
+		 else{
+ 
+           device.setToken(token);
+           device.setMail(mail);
+           
+		 }
+		 
 		return  deviceRepository.save(device);
 	}
 

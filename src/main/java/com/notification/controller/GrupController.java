@@ -71,6 +71,8 @@ public class GrupController {
 				  .setDatabaseUrl("https://productapp-22960.firebaseio.com")
 				  .build();
 				FirebaseApp.initializeApp(options);
+			
+				 
 	 }
 	 
 	

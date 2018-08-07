@@ -26,11 +26,8 @@ public class DeviceController {
 	public ResponseEntity<Device> addDevice(@RequestBody Map<String,String> addDevice) {
 		String token=addDevice.get("token");
 		String mail=addDevice.get("mail");
-		Device device=new Device();
-		device.setToken(token);
-		device.setMail(mail);
-		deviceService.addDevice(device);		
-		return new ResponseEntity<Device>(device,HttpStatus.OK);
+		Device device=deviceService.addDevice(token,mail);		
+	    return new ResponseEntity<Device>(device,HttpStatus.OK);
 		
 	
 	}
@@ -49,16 +46,15 @@ public class DeviceController {
 		deviceService.deleteDevice(token);
 
 	}	
-    @PostMapping("/sendNotificationToOneDevice")
+     @PostMapping("/sendNotificationToOneDevice")
 	 public void sendMessageToOneDevice(@RequestBody Map<String,Object>notification) {
 
 		 String  mail=(String)notification.get("mail");
 		 String title=(String)notification.get("title");
 		 String body=(String)notification.get("body");
-		 Map<String,String>dataMap=(Map<String,String>)notification.get("data");
-		 
+		 Map<String,String>dataMap=(Map<String,String>)notification.get("data");	 
 		 deviceService.sendMessageToOneDevice(mail, title, body,dataMap);
-
+		 
 	 }
     
     
