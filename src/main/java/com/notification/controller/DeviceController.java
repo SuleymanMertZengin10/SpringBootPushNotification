@@ -1,5 +1,6 @@
 package com.notification.controller;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.firebase.FirebaseApp;
 import com.notification.model.Device;
 import com.notification.service.DeviceService;
 
@@ -20,7 +22,9 @@ public class DeviceController {
 	
     @Autowired
     DeviceService deviceService;
-	
+	 
+    @Autowired
+    GrupController grupController;
     
 	@PostMapping("/addDevice")
 	public ResponseEntity<Device> addDevice(@RequestBody Map<String,String> addDevice) {
@@ -52,6 +56,14 @@ public class DeviceController {
 		 String  mail=(String)notification.get("mail");
 		 String title=(String)notification.get("title");
 		 String body=(String)notification.get("body");
+		    if(FirebaseApp.getApps().size()!=0) {
+	        	  try {
+	           grupController.fcmSignin();
+				} catch (IOException e) {
+				
+					e.printStackTrace();
+				}
+	          }
 		 Map<String,String>dataMap=(Map<String,String>)notification.get("data");	 
 		 deviceService.sendMessageToOneDevice(mail, title, body,dataMap);
 		 

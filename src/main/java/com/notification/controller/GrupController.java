@@ -81,7 +81,10 @@ public class GrupController {
 		  String grupName=message.get("grupName");
 		  String title=message.get("title");
 		  String body=message.get("body");
+      
+		  
 		  grupService.sendMessageToGroup(grupName,title,body);
+		  
 	 }
 	 
 	 
