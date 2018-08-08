@@ -15,11 +15,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Device {
 	
+	
 	@Id
-	private String token;
+	private String mail;
 	
 	@Column(unique=true)
-	private String mail;
+	private String token;
+
 	
 	@ManyToMany(mappedBy="devices",fetch=FetchType.LAZY)
 	private List<Grup> grups=new ArrayList<>();

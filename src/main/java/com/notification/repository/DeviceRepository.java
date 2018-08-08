@@ -10,7 +10,7 @@ public interface DeviceRepository extends JpaRepository<Device, String>{
 	
 	public Device findFirstByMail(String mail);
 	
-   
+	public Device findFirstByToken(String token);
 	
 	
 }

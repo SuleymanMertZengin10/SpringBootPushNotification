@@ -26,7 +26,7 @@ public class GrupController {
     @Autowired
     GrupService grupService;
 	
-    
+
    @PostMapping("/addGrup")
    public ResponseEntity<Grup> addGrup(@RequestBody Map<String,String>addGrup){
 	   String grupName=addGrup.get("grupName");
@@ -37,6 +37,7 @@ public class GrupController {
 	   
    }
 
+  
    @GetMapping("/getAllGrup")
    public ResponseEntity<?> getAllGrup(){
 	  
@@ -44,33 +45,38 @@ public class GrupController {
 	   
    }
 
-   
+  
    @PostMapping("/updateGroupDevices/{grupName}")
    public void updateGrupDevices(@RequestBody Map<String,List<String>> updateGrupDevices,@PathVariable("grupName")String grupName) throws FirebaseMessagingException {
     
 	   List<String> devicesTokenList =updateGrupDevices.get("devices");
 	   grupService.updateGrupDevices(devicesTokenList, grupName);
+	   
 	  
    }
     
- 
+
     @GetMapping("/getDevicesByGrupName/{grupName}")
     public ResponseEntity<?> getDevicesByGrupName(@PathVariable("grupName") String grupName){
         Grup grup=grupService.getGrupByGrupName(grupName);
  
     	return new ResponseEntity<>(grup.getDevices(),HttpStatus.OK);
     }
+   
+    
+	 @GetMapping("/initApp")
+	 public void  initApp() throws IOException {
+		 if(FirebaseApp.getApps().isEmpty()) {
+			 FileInputStream serviceAccount =
+					  new FileInputStream("a.txt");
+			 
+					FirebaseOptions options = new FirebaseOptions.Builder()
+					  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+					  .setDatabaseUrl("https://productapp-22960.firebaseio.com")
+					  .build();
+					FirebaseApp.initializeApp(options);
+		 }
 
-	 @GetMapping("/sign-in")
-	 public void  fcmSignin() throws IOException {
-		 FileInputStream serviceAccount =
-				  new FileInputStream("a.txt");
-		 
-				FirebaseOptions options = new FirebaseOptions.Builder()
-				  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-				  .setDatabaseUrl("https://productapp-22960.firebaseio.com")
-				  .build();
-				FirebaseApp.initializeApp(options);
 			
 				 
 	 }
@@ -81,12 +87,9 @@ public class GrupController {
 		  String grupName=message.get("grupName");
 		  String title=message.get("title");
 		  String body=message.get("body");
-      
-		  
+     
 		  grupService.sendMessageToGroup(grupName,title,body);
-		  
+
 	 }
-	 
-	 
 
 }

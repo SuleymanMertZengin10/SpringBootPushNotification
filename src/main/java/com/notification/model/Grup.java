@@ -25,7 +25,7 @@ public class Grup {
 	private String grupName;
 
 	@ManyToMany()
-	@JoinTable(name = "device_grup", joinColumns = @JoinColumn(name = "grup_id"), inverseJoinColumns = @JoinColumn(name = "device_token"))
+	@JoinTable(name = "device_grup", joinColumns = @JoinColumn(name = "grup_id"), inverseJoinColumns = @JoinColumn(name = "device_mail"))
 	private List<Device> devices = new ArrayList<>();
 	
 	public String getGrupName() {

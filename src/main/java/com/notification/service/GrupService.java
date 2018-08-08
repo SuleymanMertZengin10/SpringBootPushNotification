@@ -1,8 +1,8 @@
 package com.notification.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +13,7 @@ import com.google.firebase.messaging.AndroidNotification;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
+import com.notification.controller.GrupController;
 import com.notification.model.Device;
 import com.notification.model.Grup;
 import com.notification.repository.DeviceRepository;
@@ -21,6 +22,9 @@ import com.notification.repository.GrupRepository;
 @Service
 @Transactional
 public class GrupService {
+	@Autowired
+    GrupController grupController;
+	
     @Autowired
     GrupRepository grupRepository;
     
@@ -39,14 +43,24 @@ public class GrupService {
     	
     }
     public void updateGrupDevices(List<String>grupTokenList,String grupName) throws FirebaseMessagingException {
-   	 Grup grup= grupRepository.findFirstByGrupName(grupName);
+   	 
+		 try {
+			grupController.initApp();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
+    	Grup grup= grupRepository.findFirstByGrupName(grupName);
+
    	 List<Device>grupDeviceList=new ArrayList<>();
    	 
-   	 if(grup.getDevices().isEmpty()) {
+      if(grup.getDevices().isEmpty()) {
   
    	  for(int i=0;i<grupTokenList.size();i++) {
    	         String token= grupTokenList.get(i);
-   	         Device device=deviceRepository.getOne(token);
+   	         Device device=deviceRepository.findFirstByToken(token);
+   	       
    	         grupDeviceList.add(device);
    	            
           } 
@@ -87,9 +101,8 @@ public class GrupService {
 
    		 for(int i=0;i<grupTokenList.size();i++) {
    	         String token= grupTokenList.get(i);
-   	         Device device=deviceRepository.getOne(token);
+   	         Device device=deviceRepository.findFirstByToken(token);
    	         grupDeviceList.add(device);
-   	    
    	    	 } 
    		 
    		 grup.setDevices(grupDeviceList);
@@ -106,6 +119,14 @@ public class GrupService {
 
 
 	public void sendMessageToGroup(String grupName,String title,String body) {
+		 
+		 try {
+			grupController.initApp();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
           
 		  Message message = Message.builder()
 			     
@@ -125,9 +146,5 @@ public class GrupService {
 
 			e.printStackTrace();
 		}
-
 	}
-	
-   
-	
 }
